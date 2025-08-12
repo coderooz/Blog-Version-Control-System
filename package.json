@@ -1,5 +1,5 @@
 {
-  "name": "blog-vcs",
+  "name": "Blog-Version-Control-System",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,22 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.12",
     "@tiptap/extension-document": "^2.22.0",
     "@tiptap/extension-paragraph": "^2.22.0",
     "@tiptap/extension-text": "^2.22.0",
-    "@tiptap/react": "^2.22.0",
+    "@tiptap/react": "^2.26.1",
+    "@tiptap/starter-kit": "^3.1.0",
     "class-variance-authority": "^0.7.1",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "diff": "^8.0.2",
     "diff-match-patch": "^1.0.5",
-    "diff2html": "^3.4.51",
+    "diff2html": "^3.4.52",
     "lucide-react": "^0.518.0",
-    "mongoose": "^8.16.0",
+    "mongoose": "^8.17.1",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -37,5 +41,53 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all",
+    "not ie <= 11",
+    "not ie_mob <= 11",
+    "not and_chr <= 67",
+    "not and_ff <= 67",
+    "not and_uc <= 12.12",
+    "not and_qq <= 10.4",
+    "not and_samsung <= 11.2",
+    "not and_vivo <= 11.2"
+  ],
+  "license": "MIT",
+  "description": "A blog version control system built with Next.js, React, and Tailwind CSS, featuring a rich text editor and version history management.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coderooz/Blog-Version-Control-System.git"
+  },
+  "keywords": [
+    "blog",
+    "version control",
+    "nextjs",
+    "react",
+    "tailwindcss",
+    "tiptap",
+    "rich text editor",
+    "diff",
+    "history",
+    "mongoose",
+    "web development",
+    "javascript",
+    "typescript",
+    "web application",
+    "open source"
+  ],
+  "author": "Ranit Saha (Coderooz)",
+  "homepage": "https://github.com/coderooz/Blog-Version-Control-System",
+  "bugs": {
+    "url": "https://github.com/coderooz/Blog-Version-Control-System/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/coderooz"
   }
 }

@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor
+/.vscode/
+
+# ignore specific files
+# Note: These files are not deleted, just ignored for version control.
+# Uncomment the lines below to ignore specific files if needed.
+Query.md

@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 Blog Version Control System (Blog-VCS)
 
-## Getting Started
+A modern full-stack blog editing platform built with **Next.js 15**, **TypeScript**, **MongoDB**, and **TipTap** rich text editor. It features **version control**, allowing users to track, compare, and restore changes in blog posts — similar to Git for content writing.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- ✍️ Rich Text Editor (TipTap)
+- 💾 Save Versions with Timestamps
+- 🕒 View History of Changes
+- 🔄 Revert to Previous Versions
+- 🧠 Visual Diff Viewer for Comparing Versions
+- 🗃 MongoDB for Storing Blogs & Versions
+- 📦 Next.js App Router with Full-stack API Routes
+- 🎨 TailwindCSS + ShadCN UI for Interface
+
+---
+
+## 📁 Project Structure
+
+```
+blog-vcs/
+├── app/
+│   ├── editor/               # Editor Page
+│   ├── versions/             # Version History
+│   ├── compare/              # Compare Two Versions
+│   └── api/                  # API Routes for saving, fetching
+├── components/               # UI Components
+├── lib/                      # DB & Helper Functions
+├── models/                   # Mongoose Models
+├── public/                   # Static Assets
+├── styles/                   # Global Styles
+├── .env.local                # Environment Variables
+├── next.config.js            # Next.js Config
+├── tailwind.config.ts        # Tailwind Config
+└── README.md                 # You're here!
+
+````
+
+---
+
+## ⚙️ Tech Stack
+
+| Tool         | Purpose                        |
+|--------------|--------------------------------|
+| Next.js 15   | Full-stack React framework     |
+| TypeScript   | Type safety                    |
+| MongoDB      | NoSQL database                 |
+| Mongoose     | MongoDB ODM                    |
+| TipTap       | Rich text editor               |
+| Tailwind CSS | Utility-first styling          |
+| ShadCN UI    | Component library              |
+| Diff-Match-Patch | Version comparison engine  |
+
+---
+
+## 📦 Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/coderooz/Blog-Version-Control-System.git
+cd Blog-Version-Control-System
+````
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env.local` file:
+
+```env
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/blogvcs
+```
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Usage Guide
 
-## Learn More
+### ✍️ Writing Blogs
 
-To learn more about Next.js, take a look at the following resources:
+* Navigate to `/editor`
+* Use the rich text interface to write content.
+* Click **Save Version** to snapshot the content.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📜 View Blog Versions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Go to `/versions`
+* See all saved versions by time.
+* Select and view any past version.
 
-## Deploy on Vercel
+### 🔍 Compare Versions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Navigate to `/compare`
+* Choose two versions to view a side-by-side diff.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ♻️ Revert Version
+
+* While viewing a past version, click **Revert** to make it the current version.
+
+---
+
+## 🧪 Project Scripts
+
+| Script          | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Build for production     |
+| `npm start`     | Start production server  |
+| `npm run lint`  | Run ESLint               |
+
+---
+
+## 🧠 Future Plans
+
+* Markdown Export/Import
+* GitHub Backup Sync
+* Collaborative Editing
+* Comment & Annotations
+* Autosave Drafts
+* Authentication & Roles
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-name`)
+3. Make your changes
+4. Commit and push (`git commit -am 'Add new feature' && git push origin feature-name`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+MIT License © [Coderooz](https://github.com/coderooz)
+
+---
+
+## 🌐 Live Demo
+
+Coming soon...
+
