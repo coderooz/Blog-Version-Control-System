@@ -1,44 +1,45 @@
-// @blocks/VersionList.tsx
 'use client';
-
 import React from 'react';
+import { Button } from '@ui/button';
+import { Card, CardHeader, CardContent } from '@ui/card';
 
-type VersionItem = {
-  _id: string;
-  createdAt: string;
-};
+type VersionItem = { _id: string; createdAt: string };
 
-type Props = {
+export default function VersionList({
+  versions,
+  onView,
+  onCompare,
+  onRevert
+}: {
   versions: VersionItem[];
   onView: (id: string) => void;
   onCompare: (id: string) => void;
   onRevert: (id: string) => void;
-};
-
-export default function VersionList({ versions, onView, onCompare, onRevert }: Props) {
+}) {
   return (
-    <div className="bg-white rounded shadow p-4">
-      <h3 className="text-lg font-semibold mb-2">Versions</h3>
-      <table className="w-full table-auto">
-        <thead>
-          <tr>
-            <th className="text-left">Timestamp</th>
-            <th className="text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+    <Card>
+      <CardHeader>
+        <h3 className="text-lg font-semibold">Versions</h3>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
           {versions.map((v) => (
-            <tr key={v._id} className="border-t">
-              <td className="py-2">{new Date(v.createdAt).toLocaleString()}</td>
-              <td className="py-2 flex gap-2">
-                <button onClick={() => onView(v._id)} className="px-2 py-1 border rounded">View</button>
-                <button onClick={() => onCompare(v._id)} className="px-2 py-1 border rounded">Compare</button>
-                <button onClick={() => onRevert(v._id)} className="px-2 py-1 border rounded text-red-600">Revert</button>
-              </td>
-            </tr>
+            <div key={v._id} className="flex items-center justify-between rounded-xl border p-2">
+              <div className="text-sm">{new Date(v.createdAt).toLocaleString()}</div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => onView(v._id)}>View</Button>
+                <Button variant="outline" onClick={() => onCompare(v._id)}>Compare</Button>
+                <Button variant="destructive" onClick={() => onRevert(v._id)}>Revert</Button>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
-    </div>
+          {versions.length === 0 && (
+            <div className="rounded-xl border border-dashed p-4 text-center text-sm text-slate-500">
+              No versions loaded yet
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

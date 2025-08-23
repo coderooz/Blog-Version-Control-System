@@ -1,56 +1,45 @@
-import dbConnect from '@lib/db';
-import { BlogPost, IBlogPost } from '@models/BlogPost';
-import { Version, IVersion } from '@models/Version';
-import type mongoose from 'mongoose';
+import dbConnect from '@/lib/db';
+import { BlogPost, IBlogPost } from '@/models/BlogPost';
+import { Version, IVersion } from '@/models/Version';
 import DiffMatchPatch from 'diff-match-patch';
 
 export async function saveVersion(blogId: string | null, title: string, content: string) {
   await dbConnect();
 
-  let blog: IBlogPost | null = null;
-
-  if (blogId) {
-    blog = await BlogPost.findById(blogId);
-  }
+  let blog: IBlogPost & { _id: any } | null = null;
+  if (blogId) blog = (await BlogPost.findById(blogId)) as any;
 
   if (!blog) {
-    // create new blog
-    blog = await BlogPost.create({ title, currentContent: content });
+    blog = (await BlogPost.create({ title, currentContent: content })) as any;
   } else {
-    blog.currentContent = content;
-    await blog.save();
+    await BlogPost.updateOne({ _id: blogId }, { $set: { title, currentContent: content } });
   }
 
-  const version = await Version.create({ blogId: blog._id, content });
-
+  const version = await Version.create({ blogId: (blog as any)._id, content });
   return { blog, version };
 }
 
 export async function getVersions(blogId: string) {
   await dbConnect();
-  const versions = await Version.find({ blogId }).sort({ createdAt: -1 }).lean();
-  return versions;
+  return Version.find({ blogId }).sort({ createdAt: -1 }).lean<IVersion[]>();
 }
 
 export async function getVersionById(versionId: string) {
   await dbConnect();
-  const version = await Version.findById(versionId).lean();
-  return version;
+  return Version.findById(versionId).lean<IVersion | null>();
 }
 
 export function compareHtml(htmlA: string, htmlB: string) {
-  // Use diff-match-patch to produce diffs
   const dmp = new DiffMatchPatch();
   const diffs = dmp.diff_main(htmlA || '', htmlB || '');
   dmp.diff_cleanupSemantic(diffs);
 
-  // Transform to HTML with highlights
   let result = '';
   for (const [op, text] of diffs as any[]) {
     if (op === DiffMatchPatch.DIFF_INSERT) {
-      result += `<ins class=\"vcs-insert\">${escapeHtml(text)}</ins>`;
+      result += `<ins class="vcs-ins">${escapeHtml(text)}</ins>`;
     } else if (op === DiffMatchPatch.DIFF_DELETE) {
-      result += `<del class=\"vcs-delete\">${escapeHtml(text)}</del>`;
+      result += `<del class="vcs-del">${escapeHtml(text)}</del>`;
     } else {
       result += escapeHtml(text);
     }
@@ -63,22 +52,18 @@ export async function revertVersion(blogId: string, versionId: string) {
   const version = await Version.findById(versionId);
   if (!version) throw new Error('Version not found');
 
+  await BlogPost.updateOne({ _id: blogId }, { $set: { currentContent: version.content } });
+  const newVersion = await Version.create({ blogId, content: version.content });
+
   const blog = await BlogPost.findById(blogId);
-  if (!blog) throw new Error('Blog not found');
-
-  blog.currentContent = version.content;
-  await blog.save();
-
-  const newVersion = await Version.create({ blogId: blog._id, content: version.content });
-
   return { blog, newVersion };
 }
 
 function escapeHtml(str: string) {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }

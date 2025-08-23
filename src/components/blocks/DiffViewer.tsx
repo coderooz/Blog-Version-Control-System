@@ -1,27 +1,24 @@
-// @blocks/DiffViewer.tsx
 'use client';
-
 import React from 'react';
+import { Card, CardHeader, CardContent } from '@ui/card';
 
-type Props = {
-  html: string; // HTML with <ins> and <del> tags
-};
-
-export default function DiffViewer({ html }: Props) {
+export default function DiffViewer({ html }: { html: string }) {
   return (
-    <div className="bg-white rounded shadow p-4">
-      <h3 className="text-lg font-semibold mb-2">Diff</h3>
-      <div className="prose max-w-full">
+    <Card>
+      <CardHeader>
+        <h3 className="text-lg font-semibold">Diff</h3>
+      </CardHeader>
+      <CardContent>
         <div
-          className="diff-container p-2 border rounded"
+          className="min-h-[200px] rounded-xl border border-slate-200 p-3 text-sm leading-6"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-      </div>
+      </CardContent>
 
       <style jsx>{`
-        .vcs-insert { background-color: rgba(16,185,129,0.2); text-decoration: none; }
-        .vcs-delete { background-color: rgba(239,68,68,0.15); text-decoration: line-through; }
+        .vcs-ins { background-color: rgba(16,185,129,0.22); text-decoration: none; }
+        .vcs-del { background-color: rgba(239,68,68,0.18); text-decoration: line-through; }
       `}</style>
-    </div>
+    </Card>
   );
 }

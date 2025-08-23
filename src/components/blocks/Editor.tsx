@@ -1,11 +1,17 @@
-// @blocks/Editor.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
+
 import StarterKit from '@tiptap/starter-kit';
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+
 import type { Editor } from '@tiptap/core';
-import classNames from 'classnames';
+import { Button } from '@ui/button';
+import { Input } from '@ui/input';
+import { Card, CardHeader, CardContent, CardFooter } from '@ui/card';
 
 type Props = {
   initialHtml?: string;
@@ -14,14 +20,19 @@ type Props = {
   blogId?: string | null;
 };
 
-export default function EditorComponent({ initialHtml = '', title = 'Untitled', onSave, blogId = null }: Props) {
+export default function EditorComponent({
+  initialHtml = '',
+  title = 'Untitled',
+  onSave,
+  blogId = null
+}: Props) {
   const [localTitle, setLocalTitle] = useState(title);
+
   const editor: Editor | null = useEditor({
     extensions: [StarterKit],
+    // extensions: [Document, Paragraph, Text],
     content: initialHtml,
-    onUpdate: ({ editor }) => {
-      // auto-update local state if you want; TipTap keeps internal state
-    },
+    immediatelyRender: false
   });
 
   useEffect(() => {
@@ -33,36 +44,40 @@ export default function EditorComponent({ initialHtml = '', title = 'Untitled', 
   const handleSave = async () => {
     if (!editor) return;
     const html = editor.getHTML();
-    await onSave({ blogId, title: localTitle, content: html });
+    await onSave({ blogId, title: localTitle || 'Untitled', content: html });
   };
 
   return (
-    <div className="p-4 bg-white rounded-md shadow">
-      <input
-        value={localTitle}
-        onChange={(e) => setLocalTitle(e.target.value)}
-        placeholder="Post title"
-        className="w-full mb-3 p-2 border rounded"
-      />
+    <Card>
+      <CardHeader>
+        <h2 className="text-xl font-semibold">Blog Editor</h2>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <Input
+          value={localTitle}
+          onChange={(e) => setLocalTitle(e.target.value)}
+          placeholder="Post title"
+        />
+        <div className="space-y-2">
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleBold().run()}>Bold</Button>
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleItalic().run()}>Italic</Button>
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}>H2</Button>
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleBulletList().run()}>UL</Button>
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleOrderedList().run()}>OL</Button>
+            <Button variant="outline" onClick={() => editor?.chain().focus().toggleCodeBlock().run()}>Code</Button>
+            <Button variant="ghost" onClick={() => editor?.chain().focus().undo().run()}>Undo</Button>
+            <Button variant="ghost" onClick={() => editor?.chain().focus().redo().run()}>Redo</Button>
+          </div>
 
-      <div className="prose max-w-full mb-3">
-        <div className="toolbar mb-2 flex gap-2">
-          <button onClick={() => editor?.chain().focus().toggleBold().run()} className="px-2 py-1 border rounded">Bold</button>
-          <button onClick={() => editor?.chain().focus().toggleItalic().run()} className="px-2 py-1 border rounded">Italic</button>
-          <button onClick={() => editor?.chain().focus().toggleUnderline().run()} className="px-2 py-1 border rounded">Underline</button>
-          <button onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()} className="px-2 py-1 border rounded">H2</button>
-          <button onClick={() => editor?.chain().focus().toggleBulletList().run()} className="px-2 py-1 border rounded">UL</button>
-          <button onClick={() => editor?.chain().focus().toggleOrderedList().run()} className="px-2 py-1 border rounded">OL</button>
-          <button onClick={() => editor?.chain().focus().toggleCodeBlock().run()} className="px-2 py-1 border rounded">Code</button>
+          <div className="min-h-[320px] rounded-xl border p-3 text-sm">
+            <EditorContent editor={editor as any} />
+          </div>
         </div>
-        <div className="editor border rounded p-3 min-h-[300px]">
-          <EditorContent editor={editor as any} />
-        </div>
-      </div>
-
-      <div className="flex gap-2 mt-3">
-        <button onClick={handleSave} className="px-4 py-2 bg-sky-600 text-white rounded">Save Version</button>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter className="flex justify-end">
+        <Button onClick={handleSave}>Save Version</Button>
+      </CardFooter>
+    </Card>
   );
 }

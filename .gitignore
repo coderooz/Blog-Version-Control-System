@@ -43,5 +43,5 @@ next-env.d.ts
 # editor
 /.vscode/
 
-# other folder
+# other folder and files
 /discus

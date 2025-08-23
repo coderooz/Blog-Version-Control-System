@@ -1,11 +1,13 @@
-// app/compare/page.tsx
 'use client';
+
 import React from 'react';
 import DiffViewer from '@blocks/DiffViewer';
+import { Button } from '@ui/button';
+import { Input } from '@/ui/input';
 
 export default function ComparePage() {
-  const [a, setA] = React.useState<string | null>(null);
-  const [b, setB] = React.useState<string | null>(null);
+  const [a, setA] = React.useState<string>('');
+  const [b, setB] = React.useState<string>('');
   const [diffHtml, setDiffHtml] = React.useState<string>('');
 
   React.useEffect(() => {
@@ -17,21 +19,21 @@ export default function ComparePage() {
   }, []);
 
   const runCompare = async () => {
-    if (!a || !b) return alert('please set both version ids');
+    if (!a || !b) return alert('Please set both version ids');
     const res = await fetch(`/api/compare-versions?a=${a}&b=${b}`);
     const json = await res.json();
     if (json.ok) setDiffHtml(json.diffHtml);
-    else alert('error');
+    else alert(json.error ?? 'error');
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Compare Versions</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Compare Versions</h1>
 
-      <div className="mb-4 flex gap-2">
-        <input placeholder="Version A id" value={a ?? ''} onChange={(e) => setA(e.target.value)} className="p-2 border rounded" />
-        <input placeholder="Version B id" value={b ?? ''} onChange={(e) => setB(e.target.value)} className="p-2 border rounded" />
-        <button onClick={runCompare} className="px-3 py-2 bg-sky-600 text-white rounded">Compare</button>
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <Input placeholder="Version A id" value={a} onChange={(e) => setA(e.target.value)} />
+        <Input placeholder="Version B id" value={b} onChange={(e) => setB(e.target.value)} />
+        <Button onClick={runCompare}>Compare</Button>
       </div>
 
       <DiffViewer html={diffHtml} />

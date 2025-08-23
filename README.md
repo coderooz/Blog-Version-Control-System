@@ -1,157 +1,115 @@
-# 📝 Blog Version Control System (Blog-VCS)
+# Blog Version Control System (Blog VCS)
 
-A modern full-stack blog editing platform built with **Next.js 15**, **TypeScript**, **MongoDB**, and **TipTap** rich text editor. It features **version control**, allowing users to track, compare, and restore changes in blog posts — similar to Git for content writing.
+**Version**: V1 — scalable foundation for rich blog versioning.
 
----
+## Stack
 
-## 🚀 Features
-
-- ✍️ Rich Text Editor (TipTap)
-- 💾 Save Versions with Timestamps
-- 🕒 View History of Changes
-- 🔄 Revert to Previous Versions
-- 🧠 Visual Diff Viewer for Comparing Versions
-- 🗃 MongoDB for Storing Blogs & Versions
-- 📦 Next.js App Router with Full-stack API Routes
-- 🎨 TailwindCSS + ShadCN UI for Interface
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS 4+
+- TipTap (rich text editor)
+- MongoDB + Mongoose
+- `diff-match-patch` for diffing versions
+- Optional: Shadcn UI components, Zustand for state management
 
 ---
 
-## 📁 Project Structure
+## Directory Structure
 
 ```
+
 blog-vcs/
 ├── app/
-│   ├── editor/               # Editor Page
-│   ├── versions/             # Version History
-│   ├── compare/              # Compare Two Versions
-│   └── api/                  # API Routes for saving, fetching
-├── components/               # UI Components
-├── lib/                      # DB & Helper Functions
-├── models/                   # Mongoose Models
-├── public/                   # Static Assets
-├── styles/                   # Global Styles
-├── .env.local                # Environment Variables
-├── next.config.js            # Next.js Config
-├── tailwind.config.ts        # Tailwind Config
-└── README.md                 # You're here!
+│   ├── layout.tsx         ← Root layout & navigation
+│   ├── page.tsx           ← Redirects to editor
+│   ├── editor/page.tsx    ← Blog editing UI
+│   ├── versions/page.tsx  ← Version list & preview
+│   ├── compare/page.tsx   ← Version comparison UI
+│   └── api/               ← CRUD APIs for versions
+├── components/blocks/     ← Reusable UI components
+│   ├── Editor.tsx
+│   ├── VersionList.tsx
+│   ├── DiffViewer.tsx
+│   └── Notification.tsx
+├── lib/                   ← App business logic
+│   ├── db.ts
+│   └── versionControl.ts
+├── models/                ← Mongoose schemas
+│   ├── BlogPost.ts
+│   └── Version.ts
+├── styles/                ← Global CSS
+│   └── globals.css
+├── next.config.js
+├── postcss.config.cjs
+├── package.json
+└── README.md
 
 ````
 
 ---
 
-## ⚙️ Tech Stack
+## Getting Started
 
-| Tool         | Purpose                        |
-|--------------|--------------------------------|
-| Next.js 15   | Full-stack React framework     |
-| TypeScript   | Type safety                    |
-| MongoDB      | NoSQL database                 |
-| Mongoose     | MongoDB ODM                    |
-| TipTap       | Rich text editor               |
-| Tailwind CSS | Utility-first styling          |
-| ShadCN UI    | Component library              |
-| Diff-Match-Patch | Version comparison engine  |
+1. **Clone**
 
----
-
-## 📦 Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/coderooz/Blog-Version-Control-System.git
-cd Blog-Version-Control-System
+   ```bash
+   git clone https://github.com/coderooz/Blog-Version-Control-System.git
+   cd Blog-Version-Control-System
 ````
 
-### 2. Install Dependencies
+2. **Install**
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-### 3. Configure Environment Variables
+3. **Configure Environment**
 
-Create a `.env.local` file:
+   Create a `.env.local` file with:
 
-```env
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/blogvcs
-```
+   ```
+   MONGODB_URI=your_mongodb_connection_string
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
 
-### 4. Run the Development Server
+4. **Run in Development**
 
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
-Visit: [http://localhost:3000](http://localhost:3000)
-
----
-
-## ✨ Usage Guide
-
-### ✍️ Writing Blogs
-
-* Navigate to `/editor`
-* Use the rich text interface to write content.
-* Click **Save Version** to snapshot the content.
-
-### 📜 View Blog Versions
-
-* Go to `/versions`
-* See all saved versions by time.
-* Select and view any past version.
-
-### 🔍 Compare Versions
-
-* Navigate to `/compare`
-* Choose two versions to view a side-by-side diff.
-
-### ♻️ Revert Version
-
-* While viewing a past version, click **Revert** to make it the current version.
+   Visit [http://localhost:3000/editor](http://localhost:3000/editor) to start editing.
 
 ---
 
-## 🧪 Project Scripts
+## Features (V1)
 
-| Script          | Description              |
-| --------------- | ------------------------ |
-| `npm run dev`   | Start development server |
-| `npm run build` | Build for production     |
-| `npm start`     | Start production server  |
-| `npm run lint`  | Run ESLint               |
-
----
-
-## 🧠 Future Plans
-
-* Markdown Export/Import
-* GitHub Backup Sync
-* Collaborative Editing
-* Comment & Annotations
-* Autosave Drafts
-* Authentication & Roles
+* Rich text editing with TipTap.
+* Version saving (creates a snapshot on save).
+* Version listing, preview, and timestamp.
+* Version diffing using `diff-match-patch`.
+* Reverting—restores content and creates a new version.
+* Clean UI with Tailwind CSS; ready for Shadcn UI enhancements.
 
 ---
 
-## 🤝 Contributing
+## Future roadmap (beyond V1)
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-name`)
-3. Make your changes
-4. Commit and push (`git commit -am 'Add new feature' && git push origin feature-name`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-MIT License © [Coderooz](https://github.com/coderooz)
+* **V2**: Authentication (e.g., NextAuth.js), multi-user, permissions.
+* **V3**: Markdown support + side-by-side diff view.
+* **V4**: UI polish with Shadcn UI components, mobile responsiveness.
+* **V5**: CI/CD, testing (unit + integration), code quality tools.
 
 ---
 
-## 🌐 Live Demo
+## Contributing
 
-Coming soon...
+Contributions, issues, and feature requests are welcome! Let’s make Blog VCS even better together.
 
+---
+
+## License
+
+MIT License
+
+---

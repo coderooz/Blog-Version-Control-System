@@ -1,18 +1,19 @@
-// @models/Version.ts
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
 
-export interface IVersion extends Document {
+export interface IVersion {
   blogId: mongoose.Types.ObjectId;
-  content: string; // HTML string
+  content: string; // HTML
   createdAt: Date;
 }
 
-const VersionSchema: Schema = new Schema<IVersion>(
+const VersionSchema = new Schema<IVersion>(
   {
     blogId: { type: Schema.Types.ObjectId, ref: 'BlogPost', required: true },
-    content: { type: String, required: true },
+    content: { type: String, required: true }
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-export const Version: Model<IVersion> = (mongoose.models.Version as Model<IVersion>) || mongoose.model<IVersion>('Version', VersionSchema);
+export const Version: Model<IVersion> =
+  (mongoose.models.Version as Model<IVersion>) ||
+  mongoose.model<IVersion>('Version', VersionSchema);
