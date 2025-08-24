@@ -3,7 +3,7 @@
 import React from 'react';
 import DiffViewer from '@blocks/DiffViewer';
 import { Button } from '@ui/button';
-import { Input } from '@/ui/input';
+import { Input } from '@ui/input';
 
 export default function ComparePage() {
   const [a, setA] = React.useState<string>('');

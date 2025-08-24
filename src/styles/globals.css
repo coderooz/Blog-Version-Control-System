@@ -134,7 +134,7 @@
     @apply font-sans font-semibold;
   }
 
-  button{
+  a, button{
     @apply hover:cursor-pointer
   }
 

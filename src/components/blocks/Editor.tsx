@@ -36,8 +36,22 @@ export default function EditorComponent({
   const [localTitle, setLocalTitle] = useState(title);
 
   const editor: Editor | null = useEditor({
-    extensions: [StarterKit, Document, Paragraph, Text, Underline],
-    // extensions: [],
+    // extensions: [StarterKit, Document, Paragraph, Text, Underline],
+    extensions: [
+      StarterKit.configure({
+        paragraph: {
+          HTMLAttributes: {
+            class : "text-base leading-relaxed text-gray-800 dark:text-gray-200"
+          }
+        },
+        heading: {
+          levels: [1,2,3],
+          HTMLAttributes: {
+            class: "font-bol text-gray-900 dark:text-gray-200  mb-2 select-none"
+          }
+        }
+      })
+    ],
     content: initialHtml || basicHtml,
     immediatelyRender: false
   });
