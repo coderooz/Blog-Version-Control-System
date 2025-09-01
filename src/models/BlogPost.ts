@@ -15,6 +15,4 @@ const BlogPostSchema = new Schema<IBlogPost>(
   { timestamps: true }
 );
 
-export const BlogPost: Model<IBlogPost> =
-  (mongoose.models.BlogPost as Model<IBlogPost>) ||
-  mongoose.model<IBlogPost>('BlogPost', BlogPostSchema);
+export default (mongoose.models.BlogPost as Model<IBlogPost>) || mongoose.model<IBlogPost>('BlogPost', BlogPostSchema);

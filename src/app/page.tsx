@@ -2,7 +2,19 @@ import Link from 'next/link';
 import { Button } from '@ui/button';
 import { Card, CardContent } from '@ui/card';
 
-export default function Home() {
+const BASE_URL = "http://localhost:3000"
+async function fetchData() {
+  const req = await fetch(`${BASE_URL}/api/content`);
+  if (!req.ok) return [];
+
+  const data = req.json();
+  return data;
+}
+
+export default async function Home() {
+
+  const blogData = await fetchData();
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Blog Version Control System (V1)</h1>
